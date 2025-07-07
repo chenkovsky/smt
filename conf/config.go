@@ -27,7 +27,10 @@ type Config struct {
 	BENum          int64
 	ReplicationNum int64
 	TableRules     []*TableRule
+
+	// Postgres
 	DBSSLMode      string
+	DBInit         string
 
 	// output
 	OutputDir string
@@ -172,6 +175,9 @@ func (config *Config) readProps() (*Config, error) {
 
 	if config.DBType == common.DBSourcePostgreSQL {
 		if config.DBSSLMode, err = file.GetValue("db", "sslmode"); err != nil {
+			return nil, err
+		}
+		if config.DBInit, err = file.GetValue("db", "init"); err != nil {
 			return nil, err
 		}
 	}

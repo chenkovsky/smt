@@ -74,7 +74,7 @@ func (c *PostgreSQLSource) ResultConventers() int {
 }
 
 func (c *PostgreSQLSource) InitDB() error {
-	return c.SwitchDB("")
+	return c.SwitchDB(c.config.DBInit)
 }
 
 func (c *PostgreSQLSource) SwitchDB(database string) error {
@@ -86,6 +86,7 @@ func (c *PostgreSQLSource) SwitchDB(database string) error {
 		c.db = nil
 	}
 	connectionStr := fmt.Sprintf("host=%s user=%s password=%s port=%d sslmode=%s", c.config.DBHost, c.config.DBUser, c.config.DBPassword, c.config.DBPort, c.config.DBSSLMode)
+	fmt.Println(connectionStr)
 	if len(database) > 0 {
 		connectionStr = connectionStr + " dbname=" + database
 	}
