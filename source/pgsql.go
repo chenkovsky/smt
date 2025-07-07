@@ -85,7 +85,7 @@ func (c *PostgreSQLSource) SwitchDB(database string) error {
 		}
 		c.db = nil
 	}
-	connectionStr := fmt.Sprintf("host=%s user=%s password=%s port=%d sslmode=disable", c.config.DBHost, c.config.DBUser, c.config.DBPassword, c.config.DBPort)
+	connectionStr := fmt.Sprintf("host=%s user=%s password=%s port=%d sslmode=%s", c.config.DBHost, c.config.DBUser, c.config.DBPassword, c.config.DBPort, c.config.DBSSLMode)
 	if len(database) > 0 {
 		connectionStr = connectionStr + " dbname=" + database
 	}
@@ -275,6 +275,7 @@ func (c *PostgreSQLSource) GetFlinkConnectorName() string {
 func (c *PostgreSQLSource) GetFlinkSpecialProps(matchedTableRule *conf.TableRule) map[string]string {
 	return map[string]string{
 		"decoding.plugin.name": "pgoutput",
+		"slot.name": "flink",
 	}
 }
 
